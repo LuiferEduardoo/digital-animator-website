@@ -1,22 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthController } from './controllers/auth.controller';
-import { DemonReelController } from './controllers/demon-reel.controller';
-import { ProjectsController } from './controllers/projects.controller';
-import { MediaController } from './controllers/media.controller';
-import { ContactController } from './controllers/contact.controller';
-import { ContactService } from './services/contact.service';
-import { EmailService } from './services/email.service';
-import { MediaService } from './services/media.service';
-import { ProjectsService } from './services/projects.service';
-import { AuthService } from './services/auth.service';
-import { DemonReelService } from './services/demon-reel.service';
-import { DemonReelModule } from './modules/demon-reel.module';
+import { AuthModule } from './auth/auth.module';
+import { DemonReelModule } from './demon-reel/demon-reel.module';
+import { ProjectsModule } from './projects/projects.module';
+import { MediaModule } from './media/media.module';
+import { ContactModule } from './contact/contact.module';
+import { EmailModule } from './email/email.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  controllers: [AppController, AuthController, DemonReelController, ProjectsController, MediaController, ContactController],
-  providers: [AppService, ContactService, EmailService, MediaService, ProjectsService, AuthService, DemonReelService],
-  imports: [DemonReelModule],
+  controllers: [AppController],
+  providers: [AppService],
+  imports: [AuthModule, DemonReelModule, ProjectsModule, MediaModule, ContactModule, EmailModule, UsersModule],
 })
 export class AppModule {}
