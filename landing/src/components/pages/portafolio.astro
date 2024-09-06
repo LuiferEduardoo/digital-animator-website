@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+
+import ContactCTA from '../ContactCTA.astro';
+import PortfolioPreview from '../PortfolioPreview.astro';
+import Hero from '../Hero.astro';
+import Grid from '../Grid.astro';
+
+const projects: [] = [];
+
+import { getI18N } from '../../i18n';
+const { currentLocale } = Astro
+const i18n = getI18N({ currentLocale })
+---
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero
+				title={i18n.portfolio.title}
+				tagline={i18n.portfolio.description}
+				align="start"
+			/>
+			<Grid variant="offset">
+				{
+					projects.map((project) => (
+						<li>
+							<PortfolioPreview project={project} />
+						</li>
+					))
+				}
+			</Grid>
+		</main>
+		<ContactCTA />
+	</div>

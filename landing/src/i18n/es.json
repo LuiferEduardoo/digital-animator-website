@@ -1,0 +1,18 @@
+{
+    "home": {
+        "title": "¡Hola, mi nombre es José Miguel!",
+        "description": "Soy un animador digital creativo",
+        "previewPortfolioTitle": "Mira mi portafolio",
+        "previewPortfolioDescription": "Eche un vistazo a continuación a algunos de mis trabajos destacados."
+    },
+
+    "portfolio": {
+        "title": "Mi portafolio",
+        "description": "Vea mis proyectos más recientes a continuación para tener una idea de mi experiencia.",
+        "nameBotonMore": "Ver más"
+    },
+    "contactCTA": {
+        "title": "¿Interesado en trabajar juntos?",
+        "nameBotonMessage": "Enviame un mensaje"
+    }
+}

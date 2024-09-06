@@ -1,11 +1,15 @@
 ---
 const currentYear = new Date().getFullYear();
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <footer>
 	<div class="group">
 		<p>
-			Designed & Developed by <a href="https://luifereduardoo.com">Luifer</a>
+			{t('footer.credit')} <a href="https://luifereduardoo.com">Luifer</a>
 		</p>
 		<p>&copy; {currentYear} Jose Miguel</p>
 	</div>

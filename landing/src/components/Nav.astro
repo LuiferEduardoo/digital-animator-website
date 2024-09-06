@@ -1,13 +1,22 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
 import Icon from './Icon.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import type { iconPaths } from './IconPaths';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import LenguagePicker from './LanguagePicker.astro'
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { currentLocale } = Astro;
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
-	{ label: 'Home', href: '/' },
-	{ label: 'Work', href: '/work/' },
-	{ label: 'About', href: '/about/' },
+	{ label: t('nav.home'), href: getRelativeLocaleUrl(currentLocale ?? '', '')},
+	{ label: t('nav.portfolio'), href: getRelativeLocaleUrl(currentLocale ?? '', 'portafolio')},
+	{ label: t('nav.aboutMe'), href: getRelativeLocaleUrl(currentLocale ?? '', 'about')},
 ];
 
 /** Icon links to social media — edit these with links to your profiles! */
@@ -82,7 +91,7 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 								{
 									active:
 										Astro.url.pathname === href ||
-										(href !== '/' && Astro.url.pathname.startsWith(href)),
+										(href !== '/' && Astro.url.pathname.startsWith(href) && !href.endsWith('/')),
 								},
 							]}
 							href={href}
@@ -107,6 +116,9 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 
 			<div class="theme-toggle">
 				<ThemeToggle />
+			</div>
+			<div class="language-picker">
+				<LenguagePicker />
 			</div>
 		</div>
 	</div>
@@ -345,6 +357,24 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 
 		.socials {
 			display: none;
+		}
+	}
+
+	@media (max-width: 50em) {
+		.menu-footer {
+			position: relative; /* Asegúrate de que el contenedor tenga una posición relativa */
+			display: flex;
+			justify-content: space-between;
+			padding: 2rem 2rem 2rem 1.5rem;
+			background-color: var(--gray-999);
+			border-radius: 0 0 0.75rem 0.75rem;
+			box-shadow: var(--shadow-lg);
+		}
+
+		.language-picker {
+			position: absolute;
+			bottom: 3rem;
+			right: 1.5rem;
 		}
 	}
 

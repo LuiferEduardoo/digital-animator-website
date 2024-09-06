@@ -1,12 +1,15 @@
 ---
 import CallToAction from './CallToAction.astro';
 import Icon from './Icon.astro';
+import { getI18N } from '../i18n';
+const { currentLocale } = Astro
+const i18n = getI18N({ currentLocale })
 ---
 
 <aside>
-	<h2>Interested in working together?</h2>
+	<h2>{i18n.contactCTA.title}</h2>
 	<CallToAction href="mailto:me@example.com">
-		Send Me a Message
+		{i18n.contactCTA.nameBotonMessage}
 		<Icon icon="paper-plane-tilt" size="1.2em" />
 	</CallToAction>
 </aside>
