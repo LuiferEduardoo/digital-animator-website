@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 interface Project <T = string> {
 	title: string;
@@ -14,9 +15,10 @@ interface Props {
 }
 
 const { title, path, img, animation, img_alt } = Astro.props.project;
+const { currentLocale } = Astro;
 ---
 
-<a class="card" href={`/portafolio/${path}`}>
+<a class="card" href={`${getRelativeLocaleUrl(currentLocale ?? '', `portafolio/${path}`)}`}>
 	<span class="title">{title}</span>
 	<img src={img} alt={img_alt || ''} loading="lazy" decoding="async" />
 	<img class="animation" src={animation} alt="Animation" />
