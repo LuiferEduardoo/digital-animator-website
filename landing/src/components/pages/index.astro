@@ -13,7 +13,22 @@ import PortfolioPreview from '../PortfolioPreview.astro';
 import ContactCTA from '../ContactCTA.astro';
 
 // Content Fetching: List four most recent work projects
-const projects: [] = [];
+const projects: any[] = [
+	{
+		path: 'project-one',
+		title: 'Project 1',
+		img: 'https://images.pexels.com/photos/276267/pexels-photo-276267.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+		animation: 'https://mir-s3-cdn-cf.behance.net/project_modules/hd/5eeea355389655.59822ff824b72.gif',
+		img_alt: 'imag 1'
+	},
+	{
+		path: 'project-one',
+		title: 'Project 1',
+		img: 'https://images.pexels.com/photos/276267/pexels-photo-276267.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+		animation: 'https://mir-s3-cdn-cf.behance.net/project_modules/hd/5eeea355389655.59822ff824b72.gif',
+		img_alt: 'imag 1'
+	}
+];
 
 import { getI18N } from '../../i18n';
 const { currentLocale } = Astro
@@ -30,12 +45,13 @@ const i18n = getI18N({ currentLocale })
 				>
 				</Hero>
 
-				<img
-					alt="demon_reel"
-					width="480"
-					height="620"
-					src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxdAOY_-vITFVI-ej84s2U_ErxhOly-z3y_Q&s"
-				/>
+				<video
+					src="https://cdn.pixabay.com/video/2022/09/29/132932-755272963_large.mp4"
+					autoplay
+					loop
+					muted
+					playsinline
+				></video>
 			</header>
 		</div>
 
@@ -71,8 +87,9 @@ const i18n = getI18N({ currentLocale })
 		gap: 2rem;
 	}
 
-	.hero img {
-		aspect-ratio: 5 / 4;
+	.hero video {
+		width: 100%;
+		height: 20rem;
 		object-fit: cover;
 		object-position: top;
 		border-radius: 1.5rem;
@@ -82,15 +99,15 @@ const i18n = getI18N({ currentLocale })
 	@media (min-width: 50em) {
 		.hero {
 			display: grid;
-			grid-template-columns: 6fr 4fr;
+			grid-template-columns: 5fr 6fr;
 			padding-inline: 2.5rem;
 			gap: 3.75rem;
 		}
 
-
-		.hero img {
-			aspect-ratio: 3 / 4;
-			border-radius: 4.5rem;
+		.hero video {
+			width: 100%; /* Ocupa todo el ancho disponible en la columna */
+			height: 26rem;
+			border-radius: 2rem;
 			object-fit: cover;
 		}
 	}
