@@ -1,16 +1,25 @@
-<!-- ---
+---
 import type { CollectionEntry } from 'astro:content';
 
-interface Props {
-	project: CollectionEntry<'work'>;
+interface Project <T = string> {
+	title: string;
+	path: string;
+	img: string;
+	animation: string;
+	img_alt: string;
 }
 
-const { data, slug } = Astro.props.project;
+interface Props {
+	project: Project<'portfolio'>;
+}
+
+const { title, path, img, animation, img_alt } = Astro.props.project;
 ---
 
-<a class="card" href={`/work/${slug}`}>
-	<span class="title">{data.title}</span>
-	<img src={data.img} alt={data.img_alt || ''} loading="lazy" decoding="async" />
+<a class="card" href={`/portafolio/${path}`}>
+	<span class="title">{title}</span>
+	<img src={img} alt={img_alt || ''} loading="lazy" decoding="async" />
+	<img class="animation" src={animation} alt="Animation" />
 </a>
 
 <style>
@@ -27,11 +36,28 @@ const { data, slug } = Astro.props.project;
 		font-family: var(--font-brand);
 		font-size: var(--text-lg);
 		font-weight: 500;
-		transition: box-shadow var(--theme-transition);
+		transition: box-shadow var(--theme-transition), opacity var(--theme-transition);
+		position: relative;
 	}
 
 	.card:hover {
 		box-shadow: var(--shadow-md);
+	}
+
+	.animation {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		opacity: 0;
+		transition: opacity var(--theme-transition);
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.card:hover .animation {
+		opacity: 1;
 	}
 
 	.title {
@@ -61,4 +87,4 @@ const { data, slug } = Astro.props.project;
 			border-radius: 0.9375rem;
 		}
 	}
-</style> -->
+</style>
