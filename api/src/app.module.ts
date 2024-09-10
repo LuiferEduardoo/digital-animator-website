@@ -11,6 +11,7 @@ import { MediaModule } from './media/media.module';
 import { ContactModule } from './contact/contact.module';
 import { EmailModule } from './email/email.module';
 import { UsersModule } from './users/users.module';
+import { AboutModule } from './about/about.module';
 
 @Module({
   controllers: [AppController],
@@ -27,7 +28,8 @@ import { UsersModule } from './users/users.module';
     MediaModule, 
     ContactModule, 
     EmailModule, 
-    UsersModule
+    UsersModule, 
+    AboutModule
   ],
 })
 export class AppModule {}
