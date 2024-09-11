@@ -10,6 +10,7 @@ import { MediaModule } from './media/media.module';
 import { ContactModule } from './contact/contact.module';
 import { EmailModule } from './email/email.module';
 import { UsersModule } from './users/users.module';
+import { DatabaseModule } from './database/database.module';
 import { AboutModule } from './about/about.module';
 import config from './config';
 
@@ -29,6 +30,7 @@ import config from './config';
     EmailModule, 
     UsersModule, 
     AboutModule,
+    DatabaseModule
   ],
 })
 export class AppModule {}
