@@ -7,7 +7,6 @@ import { AuthModule } from './auth/auth.module';
 import { DemonReelModule } from './demon-reel/demon-reel.module';
 import { ProjectsModule } from './projects/projects.module';
 import { MediaModule } from './media/media.module';
-import { ContactModule } from './contact/contact.module';
 import { EmailModule } from './email/email.module';
 import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
@@ -26,7 +25,6 @@ import config from './config';
     DemonReelModule, 
     ProjectsModule, 
     MediaModule, 
-    ContactModule, 
     EmailModule, 
     UsersModule, 
     AboutModule,
