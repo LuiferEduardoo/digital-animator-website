@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany
 } from 'typeorm';
+
+import { RolUser } from './rolUser.entity'
 
 @Entity('rol')
 export class Rol {
@@ -25,4 +28,7 @@ export class Rol {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToMany(() => RolUser, (rolUser) => rolUser.rol)
+  rolUser: RolUser[];
 }
