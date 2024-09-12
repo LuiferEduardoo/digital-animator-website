@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { Authentication } from '../../auth/entities/authentications.entity';
+import { RolUser } from '../../auth/entities/rolUser.entity';
 
 @Entity('users')
 export class User {
@@ -28,4 +29,7 @@ export class User {
 
   @OneToOne(() => Authentication, (authentication) => authentication.user, { nullable: false })
   authentication: Authentication;
+
+  @OneToOne(() => RolUser, (rolUser) => rolUser.user, { nullable: false })
+  rolUser: RolUser;
 }
