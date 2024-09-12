@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne
 } from 'typeorm';
+
+import { Authentication } from '../../auth/entities/authentications.entity';
 
 @Entity('users')
 export class User {
@@ -22,4 +25,7 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
+
+  @OneToOne(() => Authentication, (authentication) => authentication.user, { nullable: false })
+  authentication: Authentication;
 }
