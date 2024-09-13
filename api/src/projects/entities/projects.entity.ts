@@ -7,9 +7,11 @@ import {
   BeforeInsert,
   BeforeUpdate,
   OneToOne,
+  OneToMany
 } from 'typeorm';
 
 import { AnimationProject } from './animationProject.entity';
+import { ImagesProject } from './imagesProjects.entity';
 
 @Entity('projects')
 export class Project {
@@ -51,6 +53,9 @@ export class Project {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToMany(() => ImagesProject, (imagesProject) => imagesProject.project)
+  imagesProject: ImagesProject[];
 
   @OneToOne(() => AnimationProject, (animationProject) => animationProject.project, { nullable: false })
   animationProject: AnimationProject;
