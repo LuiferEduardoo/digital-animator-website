@@ -6,7 +6,10 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  OneToOne,
 } from 'typeorm';
+
+import { AnimationProject } from './animationProject.entity';
 
 @Entity('projects')
 export class Project {
@@ -48,6 +51,9 @@ export class Project {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToOne(() => AnimationProject, (animationProject) => animationProject.project, { nullable: false })
+  animationProject: AnimationProject;
 
   @BeforeInsert()
   @BeforeUpdate()
