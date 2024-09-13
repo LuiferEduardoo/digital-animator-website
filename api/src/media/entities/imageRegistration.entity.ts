@@ -5,9 +5,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  OneToMany,
   JoinColumn,
 } from 'typeorm';
 import { FilesRegistration } from './filesRegistration.entity';
+
+import { ImagesProject } from '../../projects/entities/imagesProjects.entity';
 
 @Entity('images_registration')
 export class ImagesRegistration {
@@ -35,4 +38,7 @@ export class ImagesRegistration {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToMany(() => ImagesProject, (imagesProject) => imagesProject.image)
+  imagesProject: ImagesProject[];
 }
