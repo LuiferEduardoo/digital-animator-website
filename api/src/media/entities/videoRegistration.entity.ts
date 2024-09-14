@@ -14,7 +14,11 @@ export class VideoRegistration {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => FilesRegistration, { nullable: false })
+  @OneToOne(
+    () => FilesRegistration,
+    (filesRegistratio) => filesRegistratio.videoRegistration,
+    { nullable: false },
+  )
   @JoinColumn({ name: 'file_id' })
   file: FilesRegistration;
 

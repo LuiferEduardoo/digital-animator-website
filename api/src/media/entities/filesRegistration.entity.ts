@@ -9,6 +9,7 @@ import {
 
 import { GifRegistration } from './gifRegistration.entity';
 import { ImagesRegistration } from './imageRegistration.entity';
+import { VideoRegistration } from './videoRegistration.entity';
 
 @Entity('files_registration')
 export class FilesRegistration {
@@ -55,4 +56,13 @@ export class FilesRegistration {
     },
   )
   imagesRegistration: ImagesRegistration;
+
+  @OneToOne(
+    () => VideoRegistration,
+    (videoRegistration) => videoRegistration.file,
+    {
+      nullable: false,
+    },
+  )
+  videoRegistration: VideoRegistration;
 }
