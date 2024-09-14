@@ -14,7 +14,11 @@ export class GifRegistration {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => FilesRegistration, { nullable: false })
+  @OneToOne(
+    () => FilesRegistration,
+    (filesRegistratio) => filesRegistratio.gifRegistration,
+    { nullable: false },
+  )
   @JoinColumn({ name: 'file_id' })
   file: FilesRegistration;
 

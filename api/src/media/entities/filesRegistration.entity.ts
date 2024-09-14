@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
+
+import { GifRegistration } from './gifRegistration.entity';
 
 @Entity('files_registration')
 export class FilesRegistration {
@@ -37,4 +40,9 @@ export class FilesRegistration {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToOne(() => GifRegistration, (gifRegistration) => gifRegistration.file, {
+    nullable: false,
+  })
+  gifRegistration: GifRegistration;
 }
