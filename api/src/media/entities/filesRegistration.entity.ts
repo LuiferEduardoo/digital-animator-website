@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { GifRegistration } from './gifRegistration.entity';
+import { ImagesRegistration } from './imageRegistration.entity';
 
 @Entity('files_registration')
 export class FilesRegistration {
@@ -45,4 +46,13 @@ export class FilesRegistration {
     nullable: false,
   })
   gifRegistration: GifRegistration;
+
+  @OneToOne(
+    () => ImagesRegistration,
+    (imagesRegistration) => imagesRegistration.file,
+    {
+      nullable: false,
+    },
+  )
+  imagesRegistration: ImagesRegistration;
 }

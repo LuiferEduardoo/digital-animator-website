@@ -17,7 +17,11 @@ export class ImagesRegistration {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => FilesRegistration, { nullable: false })
+  @OneToOne(
+    () => FilesRegistration,
+    (filesRegistratio) => filesRegistratio.imagesRegistration,
+    { nullable: false },
+  )
   @JoinColumn({ name: 'file_id' })
   file: FilesRegistration;
 
