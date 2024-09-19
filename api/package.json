@@ -32,6 +32,7 @@
     "@nestjs/typeorm": "^10.0.2",
     "@types/multer": "^1.4.12",
     "bcrypt": "^5.1.1",
+    "class-transformer": "^0.5.1",
     "dotenv": "^16.4.5",
     "ffprobe-static": "^3.1.0",
     "fluent-ffmpeg": "^2.1.3",
