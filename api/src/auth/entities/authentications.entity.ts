@@ -27,10 +27,13 @@ export class Authentication {
   @Column({ type: 'varchar', length: 32, nullable: false, unique: true })
   username: string;
 
-  @Column({ type: 'varchar', length: 32, nullable: false })
+  @Column({ type: 'boolean', default: true, nullable: true })
+  active: boolean;
+
+  @Column({ type: 'text', nullable: false })
   password: string;
 
-  @Column({ type: 'varchar', length: 32, nullable: true })
+  @Column({ type: 'text', nullable: true })
   password_reset_token: string | null;
 
   @CreateDateColumn({
