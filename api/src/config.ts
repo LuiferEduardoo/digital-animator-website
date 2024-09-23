@@ -10,6 +10,10 @@ export default registerAs('config', () => {
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             synchronize: process.env.synchronize === 'true'
+        },
+        jwtSecret: {
+            reset: process.env.RESET_TOKEN_SECRET,
+            access: process.env.ACCESS_TOKEN_SECRET,
         }
     }
 })

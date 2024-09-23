@@ -2,14 +2,19 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 import { Authentication } from '../entities/authentications.entity';
+import { PayloadToken } from '../models/token.model';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Authentication)
     private authenticationRepo: Repository<Authentication>,
+    private jwtService: JwtService,
+    private configService: ConfigService 
   ) {}
 
   async getUserForCredential(credential: string){
@@ -33,6 +38,9 @@ export class AuthService {
   async validateUser(credential: string, password: string) {
     try {
       const user = await this.getUserForCredential(credential);
+      if(!user.active){
+        throw new UnauthorizedException('Inactive user');
+      }
       const isPasswordValid  = await bcrypt.compare(password, user.password);
       if(user && isPasswordValid ){
         return user;
@@ -41,6 +49,21 @@ export class AuthService {
       }
     } catch(err){
       throw new UnauthorizedException('Incorrect password or email');
+    }
+  }
+
+  async login(userAuh: Authentication) {
+    const payload: PayloadToken = {
+      sub: userAuh.user.id,
+      role: userAuh.user.rolUser.rol.rol
+    }
+
+    return {
+      message: "Successful login",
+      access_token: this.jwtService.sign(payload, {
+        secret: this.configService.get<string>('config.jwtSecret.access'),
+        expiresIn: '7d',
+      })
     }
   }
 }
