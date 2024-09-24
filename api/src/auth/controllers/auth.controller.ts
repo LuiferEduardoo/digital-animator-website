@@ -1,13 +1,23 @@
-import { Controller, Post, Req, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Req,
+  UseGuards
+} from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 
+import { Authentication } from '../entities/authentications.entity';
+import { AuthService } from '../services/auth.service';
+
 @Controller('auth')
 export class AuthController {
-  constructor(){}
+  constructor(private readonly authService: AuthService) {}
+
   @UseGuards(AuthGuard('local'))
   @Post('/login')
-  login(@Body() @Req() req: Request){
-    return "successful login"
+  login(@Req() req: Request) {
+    const authentication = req.user as Authentication;
+    return this.authService.login(authentication);
   }
 }

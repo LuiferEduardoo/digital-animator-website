@@ -1,12 +1,20 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from "bcrypt"
+import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
 import { Authentication } from '../entities/authentications.entity';
-import { PayloadToken } from '../models/token.model';
+import { PayloadToken, PayloadTokenReset } from '../models/token.model';
+import { ResetPassword } from '../dto/resetPassword.dto';
+import { EmailService } from 'src/email/services/email.service';
+import { ChangePassword } from '../dto/changePassword.dto';
 
 @Injectable()
 export class AuthService {
@@ -14,10 +22,11 @@ export class AuthService {
     @InjectRepository(Authentication)
     private authenticationRepo: Repository<Authentication>,
     private jwtService: JwtService,
-    private configService: ConfigService 
+    private configService: ConfigService,
+    private readonly emailService: EmailService,
   ) {}
 
-  async getUserForCredential(credential: string){
+  async getUserForCredential(credential: string) {
     try {
       let where: { email?: string; username?: string } = {};
       if (credential.includes('@')) {
@@ -30,24 +39,24 @@ export class AuthService {
         relations: ['user', 'user.rolUser', 'user.rolUser.rol'],
       });
       return user;
-    } catch(err){
-      throw err
+    } catch (err) {
+      throw err;
     }
   }
 
   async validateUser(credential: string, password: string) {
     try {
       const user = await this.getUserForCredential(credential);
-      if(!user.active){
+      if (!user.active) {
         throw new UnauthorizedException('Inactive user');
       }
-      const isPasswordValid  = await bcrypt.compare(password, user.password);
-      if(user && isPasswordValid ){
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (user && isPasswordValid) {
         return user;
       } else {
-        throw new Error()
+        throw new Error();
       }
-    } catch(err){
+    } catch (err) {
       throw new UnauthorizedException('Incorrect password or email');
     }
   }
@@ -55,15 +64,15 @@ export class AuthService {
   async login(userAuh: Authentication) {
     const payload: PayloadToken = {
       sub: userAuh.user.id,
-      role: userAuh.user.rolUser.rol.rol
-    }
+      role: userAuh.user.rolUser.rol.rol,
+    };
 
     return {
-      message: "Successful login",
+      message: 'Successful login',
       access_token: this.jwtService.sign(payload, {
         secret: this.configService.get<string>('config.jwtSecret.access'),
         expiresIn: '7d',
-      })
-    }
+      }),
+    };
   }
 }
