@@ -14,6 +14,13 @@ export default registerAs('config', () => {
         jwtSecret: {
             reset: process.env.RESET_TOKEN_SECRET,
             access: process.env.ACCESS_TOKEN_SECRET,
+        },
+        mail: {
+            host: process.env.MAIL_HOST,
+            port: parseInt(process.env.MAIL_PORT, 10),
+            secure: process.env.MAIL_SECURE === 'true',
+            user: process.env.MAIL_USER,
+            password: process.env.MAIL_PASSWORD
         }
     }
 })
