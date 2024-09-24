@@ -1,6 +1,8 @@
 import {
   Injectable,
-  UnauthorizedException
+  UnauthorizedException,
+  BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,6 +14,7 @@ import { Authentication } from '../entities/authentications.entity';
 import { PayloadToken, PayloadTokenReset } from '../models/token.model';
 import { ResetPassword } from '../dto/resetPassword.dto';
 import { EmailService } from 'src/email/services/email.service';
+import { ChangePassword } from '../dto/changePassword.dto';
 
 @Injectable()
 export class AuthService {
@@ -110,4 +113,35 @@ export class AuthService {
     }
   }
 
+  async changePassword(payload: PayloadTokenReset, token: string, changePassword: ChangePassword) {
+    try {
+      if (changePassword.newPassword !== changePassword.repeatPassword) {
+        throw new BadRequestException('Passwords do not match');
+      }
+      const user = await this.authenticationRepo.findOne({
+        where: {
+          user: {
+            id: payload.sub,
+          },
+          active: true,
+        },
+        relations: ['user'],
+      });
+      if (!user) {
+        throw new NotFoundException('User not found or inactive');
+      }
+      if(user.password_reset_token !== token){
+        throw new UnauthorizedException('Invalid token');
+      }
+      user.password_reset_token = null;
+      user.password = changePassword.newPassword;
+      await this.authenticationRepo.save(user);
+
+      return {
+        message: 'password changed successfully',
+      };
+    } catch (err) {
+      throw err;
+    }
+  }
 }

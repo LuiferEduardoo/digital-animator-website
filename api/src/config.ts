@@ -21,6 +21,7 @@ export default registerAs('config', () => {
             secure: process.env.MAIL_SECURE === 'true',
             user: process.env.MAIL_USER,
             password: process.env.MAIL_PASSWORD
-        }
+        },
+        urlDashboard: process.env.URL_DASHBOARD
     }
 })
