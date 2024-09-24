@@ -1,8 +1,6 @@
 import {
   Injectable,
-  UnauthorizedException,
-  BadRequestException,
-  NotFoundException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -14,7 +12,6 @@ import { Authentication } from '../entities/authentications.entity';
 import { PayloadToken, PayloadTokenReset } from '../models/token.model';
 import { ResetPassword } from '../dto/resetPassword.dto';
 import { EmailService } from 'src/email/services/email.service';
-import { ChangePassword } from '../dto/changePassword.dto';
 
 @Injectable()
 export class AuthService {
@@ -75,4 +72,42 @@ export class AuthService {
       }),
     };
   }
+
+  async resetPassword(resetPassword: ResetPassword) {
+    try {
+      const user = await this.authenticationRepo.findOne({
+        where: {
+          email: resetPassword.email,
+          active: true,
+        },
+        relations: ['user'],
+      });
+
+      if (user) {
+        const payload: PayloadTokenReset = {
+          sub: user.user.id,
+        };
+        const token = this.jwtService.sign(payload, {
+          secret: this.configService.get<string>('config.jwtSecret.reset'),
+          expiresIn: '25m',
+        });
+
+        const url = `${this.configService.get<string>('urlDashboard')}/auth/change-password?token=${token}`;
+        const html = `<p>Recupera tu contraseña con el siguiente link: <a href="${url}">Recuperar Contraseña</a></p>`;
+        await this.emailService.sendMail(
+          user.email,
+          'Recuperación de contraseña',
+          html,
+        );
+        user.password_reset_token = token;
+        await this.authenticationRepo.save(user);
+      }
+      return {
+        message: 'Email sent successfully',
+      };
+    } catch (err) {
+      throw err;
+    }
+  }
+
 }
