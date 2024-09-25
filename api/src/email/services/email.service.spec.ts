@@ -43,15 +43,15 @@ describe('MailService', () => {
     const text = 'Test Body';
     const html = '<p>Test Body</p>';
 
-    await service.sendMail(to, subject, text, html);
+    await service.sendMail(to, subject, html, text);
 
     // Verificar que sendMail fue llamado con los parámetros correctos
     expect(transporterMock.sendMail).toHaveBeenCalledWith({
       from: process.env.MAIL_FROM,
       to,
       subject,
-      text,
       html,
+      text,
     });
 
     // Verificar que el correo fue enviado correctamente
