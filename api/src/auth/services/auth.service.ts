@@ -95,7 +95,7 @@ export class AuthService {
           expiresIn: '25m',
         });
 
-        const url = `${this.configService.get<string>('urlDashboard')}/auth/change-password?token=${token}`;
+        const url = `${this.configService.get<string>('config.urlDashboard')}/auth/change-password?token=${token}`;
         const html = `<p>Recupera tu contraseña con el siguiente link: <a href="${url}">Recuperar Contraseña</a></p>`;
         await this.emailService.sendMail(
           user.email,
