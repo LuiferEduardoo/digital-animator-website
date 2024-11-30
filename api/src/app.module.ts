@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { DemonReelModule } from './demon-reel/demon-reel.module';
 import { ProjectsModule } from './projects/projects.module';
@@ -14,8 +12,6 @@ import { AboutModule } from './about/about.module';
 import config from './config';
 
 @Module({
-  controllers: [AppController],
-  providers: [AppService],
   imports: [
     ConfigModule.forRoot({
       load: [config],
